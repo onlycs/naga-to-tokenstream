@@ -242,17 +242,21 @@ impl TypesDefinitions {
                     (Some(members), Some(struct_name)) => {
                         #[allow(unused_mut)]
                         let mut bonus_struct_derives = TokenStream::new();
+                        let mut repr_c = TokenStream::new();
                         if args.gen_encase {
                             bonus_struct_derives.extend(quote::quote!(encase::ShaderType,))
                         }
                         if args.derive_bytemuck {
                             bonus_struct_derives
-                                .extend(quote::quote!(bytemuck::Pod, bytemuck::Zeroable,))
+                                .extend(quote::quote!(bytemuck::Pod, bytemuck::Zeroable,));
+
+                            repr_c.extend(quote::quote!(#[repr(C)]))
                         }
 
                         self.definitions.push(syn::parse_quote! {
                             #[allow(unused, non_camel_case_types)]
                             #[derive(Debug, PartialEq, Clone, #bonus_struct_derives)]
+                            #repr_c
                             pub struct #struct_name {
                                 #(#members ,)*
                             }
