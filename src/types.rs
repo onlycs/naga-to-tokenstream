@@ -247,8 +247,11 @@ impl TypesDefinitions {
                             bonus_struct_derives.extend(quote::quote!(encase::ShaderType,))
                         }
                         if args.derive_bytemuck {
-                            bonus_struct_derives
-                                .extend(quote::quote!(bytemuck::Pod, bytemuck::Zeroable,));
+                            bonus_struct_derives.extend(quote::quote!(
+                                bytemuck::Pod,
+                                bytemuck::Zeroable,
+                                Copy
+                            ));
 
                             repr_c.extend(quote::quote!(#[repr(C)]))
                         }
