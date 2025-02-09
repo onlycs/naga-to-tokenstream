@@ -73,6 +73,8 @@ pub struct ModuleToTokensConfig {
     pub gen_encase: bool,
     /// Generate `naga` types.
     pub gen_naga: bool,
+    /// Derive bytemuck::Pod and bytemuck::Zeroable for all types.
+    pub derive_bytemuck: bool,
 }
 
 mod sealed {
